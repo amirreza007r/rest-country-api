@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- import css sheet -->
+    <link rel="stylesheet" href="./assets/vendor/bootstrap-rtl/bootstrap.rtl.min.css">
+    <!-- fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,600;6..12,800&display=swap"
+        rel="stylesheet">
+    <!-- import custom css -->
+    <link rel="stylesheet" href="./assets/css/master.css">
+    <!-- import custom css -->
+
+    <title>صفحه ی اول </title>
+</head>
+
+<body>
+    <!-- header section  -->
+    <header name="dark-element">
+        <div class="fluid-container">
+            <div class="base-container d-flex align-items-center justify-content-between">
+                <h2 class="title-text">where in the world</h1>
+                    <div class="dark-switch pt-2">
+
+                        <button onclick="toggleDarkMode()">
+                            <p>Dark mode</p>
+                        </button>
+
+                    </div>
+            </div>
+
+        </div>
+        <!-- nav section  -->
+
+    </header>
+    <div class="main-container" id="main-container">
+        <main>
+            <nav>
+                <div class="nav-container justify-content-between gap-5 flex-wrap d-flex align-items-center">
+                    <div class="search-section gap-3 rounded d-flex align-items-center justify-content-center ">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0,0,255.99544,255.99544" width="30px" height="30px">
+                            <g fill-opacity="0.45098" fill="#000000" fill-rule="nonzero" stroke="none" stroke-width="1"
+                                stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray=""
+                                stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none"
+                                text-anchor="none" style="mix-blend-mode: normal">
+                                <g transform="scale(5.12,5.12)">
+                                    <path
+                                        d="M21,3c-9.37891,0 -17,7.62109 -17,17c0,9.37891 7.62109,17 17,17c3.71094,0 7.14063,-1.19531 9.9375,-3.21875l13.15625,13.125l2.8125,-2.8125l-13,-13.03125c2.55469,-2.97656 4.09375,-6.83984 4.09375,-11.0625c0,-9.37891 -7.62109,-17 -17,-17zM21,5c8.29688,0 15,6.70313 15,15c0,8.29688 -6.70312,15 -15,15c-8.29687,0 -15,-6.70312 -15,-15c0,-8.29687 6.70313,-15 15,-15z">
+                                    </path>
+                                </g>
+                            </g>
+                        </svg>
+                        <input class="" id="countrySearch" type="text" placeholder="search for a country...">
+                    </div>
+                    <div class="btn-group">
+
+                        <!-- <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul> -->
+                        <select id="continentFilter">
+                            <option value="">All Continents</option>
+                            <option value="Africa">Africa</option>
+                            <option value="Americas">Americas</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Oceania">Oceania</option>
+                        </select>
+
+
+                    </div>
+                </div>
+            </nav>
+            <div id="countries" class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4"></div>
+
+
+        </main>
+    </div>
+    <!-- import js script -->
+    <script src="./assets/js/app.js"></script>
+    <!-- import js script -->
+    <script src="./assets/vendor/bootstrap-rtl/bootstrap.bundle.min.js"> </script>
+</body>
+
+</html>

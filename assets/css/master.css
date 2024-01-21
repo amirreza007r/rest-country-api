@@ -9,6 +9,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    margin-bottom: 0;
     font-family: "Nunito Sans", sans-serif !important;
 }
 .dark-mode {
@@ -16,7 +17,7 @@
     color: white !important;
 }
 .dark-mode-element {
-    background-color: var(--dark-elements);
+    background-color: var(--dark-elements) !important;
     color: white !important;
 }
 /* header  */
@@ -60,9 +61,9 @@ main {
     min-height: 50px;
     background-color: var(--light-elements);
     min-width: 300px;
-    -webkit-box-shadow: 0px 10px 7px -6px rgba(204, 204, 204, 1);
-    -moz-box-shadow: 0px 10px 7px -6px rgba(204, 204, 204, 1);
-    box-shadow: 0px 10px 7px -6px rgba(204, 204, 204, 1);
+    -webkit-box-shadow: 0px 10px 7px -6px rgb(70 70 70 / 12%);
+    -moz-box-shadow: 0px 10px 7px -6px rgb(70 70 70 / 12%);
+    box-shadow: 0px 10px 7px -6px rgb(70 70 70 / 12%);
 }
 .search-section input {
     height: 25px;
@@ -70,6 +71,9 @@ main {
 }
 input[type="text"]:focus {
     outline: none;
+}
+.white-placeholder::placeholder {
+    color: white;
 }
 /* content  */
 .content div img {

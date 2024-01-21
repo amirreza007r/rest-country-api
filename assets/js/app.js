@@ -1,111 +1,14 @@
-// fetch("https://restcountries.com/v3.1/all")
-//     .then((res) => res.json())
-//     .then((data) => displayCountries(data.slice(0, 12)))
-//     .catch((error) => console.error("Error fetching data:", error));
-
-// const displayCountries = (countries) => {
-//     const container = document.getElementById("countries");
-
-//     container.innerHTML = "";
-
-//     countries.forEach((country) => {
-//         const countryElement = getCountryElement(country);
-//         container.appendChild(countryElement);
-//     });
-// };
-
-// const getCountryElement = (country) => {
-//     const div = document.createElement("div");
-//     div.className = "content";
-
-//     div.innerHTML = `
-//             <div class="col">
-//                 <div class="card">
-//                     <img src="${country.flags.png}" class="card-img-top" alt="...">
-//                     <div class="card-body">
-//                         <h5 class="card-title">${country.name.common}</h5>
-//                         <div><p>Population: ${country.population} </p></div>
-//                         <div><p>Region: ${country.region} </p></div>
-//                         <div><p>Capital: ${country.capital} </p></div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     `;
-
-//     return div;
-// };
-
-// Function to fetch and display countries based on the selected continent
-
-// const displayCountries = () => {
-//     const container = document.getElementById("countries");
-//     const selectedContinent = document.getElementById("continentFilter").value;
-//     const searchQuery = document.getElementById("countrySearch").value.toLowerCase();
-
-//     fetch("https://restcountries.com/v3.1/all")
-//         .then((res) => res.json())
-//         .then((data) => {
-//             container.innerHTML = "";
-
-//             const filteredCountries = selectedContinent
-//                 ? data.filter((country) => country.region === selectedContinent)
-//                 : data;
-
-//             filteredCountries.forEach((country) => {
-//                 const countryElement = getCountryElement(country);
-//                 container.appendChild(countryElement);
-//             });
-//         })
-//         .catch((error) => console.error("Error fetching data:", error));
-// };
-
-// // Event listener for dropdown change event
-// document
-//     .getElementById("continentFilter")
-//     .addEventListener("change", displayCountries);
-
-// // Initial fetch and display of countries without filtering
-// displayCountries();
-
-// const getCountryElement = (country) => {
-//     const div = document.createElement("div");
-//     div.className = "content";
-
-//     div.innerHTML = `
-//             <div class="col">
-//                 <div class="card">
-//                     <img src="${
-//                         country.flags.png
-//                     }" class="card-img-top" alt="...">
-//                     <div class="card-body">
-//                         <h5 class="card-title">${country.name.common}</h5>
-//                         <div><p>Population: ${
-//                             country.population || "N/A"
-//                         } </p></div>
-//                         <div><p>Region: ${country.region || "N/A"} </p></div>
-//                         <div><p>Capital: ${country.capital || "N/A"} </p></div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     `;
-
-//     return div;
-// };
-
-// Function to fetch and display countries based on the selected continent and search query
 const displayCountries = () => {
-    const container = document.getElementById("countries");
-    const selectedContinent = document.getElementById("continentFilter").value;
-    const searchQuery = document
-        .getElementById("countrySearch")
-        .value.toLowerCase();
+    const container = $("#countries");
+    const selectedContinent = $("#continentFilter").val();
+    const searchQuery = $("#countrySearch").val().toLowerCase();
 
-    fetch("https://restcountries.com/v3.1/all")
-        .then((res) => res.json())
-        .then((data) => {
-            container.innerHTML = "";
+    $.ajax({
+        url: "https://restcountries.com/v3.1/all",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            container.empty();
 
             const filteredCountries = data.filter(
                 (country) =>
@@ -119,28 +22,26 @@ const displayCountries = () => {
                         : true)
             );
 
-            filteredCountries.forEach((country) => {
+            $.each(filteredCountries, function (index, country) {
                 const countryElement = getCountryElement(country);
-                container.appendChild(countryElement);
+                container.append(countryElement);
             });
-        })
-        .catch((error) => console.error("Error fetching data:", error));
+        },
+        error: function (error) {
+            console.error("Error fetching data:", error);
+        },
+    });
 };
 
-document
-    .getElementById("continentFilter")
-    .addEventListener("change", displayCountries);
-document
-    .getElementById("countrySearch")
-    .addEventListener("keyup", displayCountries);
+$("#continentFilter").on("change", displayCountries);
+$("#countrySearch").on("keyup", displayCountries);
 
 displayCountries();
 
 const getCountryElement = (country) => {
-    const div = document.createElement("div");
-    div.className = "content";
+    const div = $("<div>").addClass("content");
 
-    div.innerHTML = `
+    div.html(`
             <div class="col">
                 <div class="card">
                     <img src="${
@@ -156,29 +57,80 @@ const getCountryElement = (country) => {
                     </div>
                 </div>
             </div>
-        </div>
-    `;
+    `);
 
     return div;
 };
 
 function toggleDarkMode() {
-    const mainContainer = document.getElementById("main-container");
-    mainContainer.classList.toggle("dark-mode");
-    const mainElement = document.querySelector("main");
-    mainElement.classList.toggle("dark-mode");
-    const header = document.querySelector("header");
-    header.classList.toggle("dark-mode-element");
-    const cardDark = document.querySelectorAll("card");
-    cardDark.classList.toggle("dark-mode-element");
+    if (localStorage.getItem("darkMode") === "true") {
+        localStorage.setItem("darkMode", false);
+    }
+    const mainContainer = $("#main-container");
+    mainContainer.toggleClass("dark-mode");
+    $("main").toggleClass("dark-mode");
+    $("header").toggleClass("dark-mode-element");
+    $(".card, #continentFilter").toggleClass("dark-mode-element");
+    $(".search-section,#countrySearch").toggleClass("dark-mode-element");
 
-    const isDarkMode = mainContainer.classList.contains("dark-mode");
+    const isDarkMode = mainContainer.hasClass("dark-mode");
     localStorage.setItem("darkMode", isDarkMode);
+
+    const svgContainer = $("#svg-container");
+    if (isDarkMode) {
+        // Replace with dark mode SVG
+        svgContainer.html(`
+    <svg class="search-icon-light" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0,255.99544,255.99544"
+        width="30px" height="30px">
+        <g fill-opacity="0.45098" fill="#fff" fill-rule="nonzero" stroke="none"
+            stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
+            stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none"
+            font-weight="none" font-size="none" text-anchor="none"
+            style="mix-blend-mode: normal">
+            <g transform="scale(5.12,5.12)">
+                <path
+                    d="M21,3c-9.37891,0 -17,7.62109 -17,17c0,9.37891 7.62109,17 17,17c3.71094,0 7.14063,-1.19531 9.9375,-3.21875l13.15625,13.125l2.8125,-2.8125l-13,-13.03125c2.55469,-2.97656 4.09375,-6.83984 4.09375,-11.0625c0,-9.37891 -7.62109,-17 -17,-17zM21,5c8.29688,0 15,6.70313 15,15c0,8.29688 -6.70312,15 -15,15c-8.29687,0 -15,-6.70312 -15,-15c0,-8.29687 6.70313,-15 15,-15z">
+                </path>
+            </g>
+        </g>
+    </svg>
+`);
+    } else {
+        // Replace with light mode SVG
+        svgContainer.html(`
+        <svg class="search-icon-light" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0,255.99544,255.99544"
+            width="30px" height="30px">
+            <g fill-opacity="0.45098" fill="#000000" fill-rule="nonzero" stroke="none"
+                stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
+                stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none"
+                font-weight="none" font-size="none" text-anchor="none"
+                style="mix-blend-mode: normal">
+                <g transform="scale(5.12,5.12)">
+                    <path
+                        d="M21,3c-9.37891,0 -17,7.62109 -17,17c0,9.37891 7.62109,17 17,17c3.71094,0 7.14063,-1.19531 9.9375,-3.21875l13.15625,13.125l2.8125,-2.8125l-13,-13.03125c2.55469,-2.97656 4.09375,-6.83984 4.09375,-11.0625c0,-9.37891 -7.62109,-17 -17,-17zM21,5c8.29688,0 15,6.70313 15,15c0,8.29688 -6.70312,15 -15,15c-8.29687,0 -15,-6.70312 -15,-15c0,-8.29687 6.70313,-15 15,-15z">
+                    </path>
+                </g>
+            </g>
+        </svg>
+    `);
+        // Remove "dark-mode-element" class from all elements
+        document.querySelectorAll(".dark-mode-element").forEach((element) => {
+            element.classList.remove("dark-mode-element");
+        });
+
+        // Remove "dark-mode" class from all elements
+        document.querySelectorAll(".dark-mode").forEach((element) => {
+            element.classList.remove("dark-mode");
+        });
+    }
 }
 
 function setInitialMode() {
-    const mainContainer = document.getElementById("main-container");
+    const mainContainer = $("#main-container");
     const isDarkMode = localStorage.getItem("darkMode") === "true";
-    mainContainer.classList.toggle("dark-mode", isDarkMode);
+    mainContainer.toggleClass("dark-mode", isDarkMode);
 }
+
 setInitialMode();
